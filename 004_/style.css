@@ -1,0 +1,114 @@
+.alert {
+  font-weight: bold;
+  color: red;
+}
+
+#special-alert {
+  background-color: yellow;
+  color: black;
+}
+
+body {
+  background: #ccc;
+
+  font-family: Sans-serif;
+}
+
+div.dev {
+  border: solid 1px red;
+}
+
+div.dev div {
+  border: dashed 1px green;
+}
+
+div#chart-holder {
+  width: 600px;
+  background: white;
+  margin: auto;
+  font-size: 16px;
+}
+
+div#chart-components {
+  height: 400px;
+  position: relative;
+}
+
+div#main,
+div#sidebar {
+  position: absolute;
+}
+
+div#main {
+  width: 75%;
+  height: 100%;
+  background: #eee;
+}
+
+div#sidebar {
+  right: 0;
+  width: 25%;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  /* flex-direction: row; */
+  width: 600px;
+  height: 400px;
+  border: 2px solid red;
+}
+
+.box {
+  border: 2px solid green;
+  font-size: 28px;
+  padding: 10px;
+  width: 80px;
+  height: 80px;
+}
+#chart {
+  background-color: antiquewhite;
+}
+#chart circle {
+  fill: lightblue;
+}
+#chart circle {
+  fill: lightblue;
+}
+#chart line {
+  stroke: #555555;
+  stroke-width: 2;
+}
+#chart rect {
+  stroke: red;
+  fill: white;
+}
+#chart polygon {
+  fill: green;
+}
+#chart {
+  background: #eee;
+  font-family: sans-serif;
+}
+#chart text {
+  font-size: 16px;
+}
+#chart text#title {
+  font-size: 18px;
+}
+#chart path {
+  stroke: red;
+  fill: none;
+}
+
+#three-circle-chart circle {
+  opacity: 0.33;
+}
+
+#js-chart {
+  background: lightgray;
+}
+
+#js-chart circle {
+  fill: red;
+}

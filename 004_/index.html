@@ -7,7 +7,120 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="my-chart-wraper" class="chart-holder dev">
+      <div id="my-chart" class="bar chart">
+        this is a placeholder, with parent #my-chart-wrapper
+      </div>
+    </div>
+    <h2>A Level-2 Header</h2>
+    <p>
+      A paragraph of body text with a line break here..<br />
+      and a second paragraph...
+    </p>
+
+    <div id="inline-examples">
+      <img src="path/to/image.png" id="prettypic" />
+      <p>
+        This is a <a href="link-url">link</a> to
+        <span class="url">link-url</span>
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 50px">
+      <div>
+        <h3>Ordered (ol) list</h3>
+        <ol>
+          <li>First Item</li>
+          <li>Second Item</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Unordered (ul) list</h3>
+        <ul>
+          <li>First Item</li>
+          <li>Second Item</li>
+        </ul>
+      </div>
+    </div>
+
+    <table id="chart-data">
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Country</th>
+      </tr>
+      <tr>
+        <td>Albert Einstein</td>
+        <td>Physics</td>
+        <td>Switzerland</td>
+      </tr>
+    </table>
+
+    <span class="alert" id="special-alert"> something to be alerted to</span>
+
+    <div id="chart-holder" class="dev">
+      <div id="header">
+        <h2>A Catchy Title Coming Soon...</h2>
+        <p>
+          Some body text describing what this visualization is all about and
+          why you should care.
+        </p>
+      </div>
+      <div id="chart-components">
+        <div id="main">A placeholder for the main chart.</div>
+        <div id="sidebar">
+          <p>
+            Some useful information about the chart, probably changing with
+            user interaction.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="top-container">
+      <div class="box" id="box1">box 1</div>
+      <div class="box" id="box2">box 2</div>
+      <div class="box" id="box3">box 3</div>
+    </div>
+
+    <svg id="chart" width="300" height="225">
+      <circle r="15" cx="100" cy="50"></circle>
+      <rect x="240" y="5" width="55" height="30"></rect>
+      <line x1="20" y1="20" x2="20" y2="130"></line>
+      <line x1="20" y1="130" x2="280" y2="130"></line>
+      <polygon points="210,100, 230,100, 220,80"></polygon>
+
+      <text id="title" text-anchor="middle" x="150" y="20">A Dummy Chart</text>
+      <text
+        x="20"
+        y="20"
+        transform="rotate(-90,20,20)"
+        text-anchor="end"
+        dy="0.71em"
+      >
+        y axis label
+      </text>
+      <path d="M20 130L60 70L110 100L160 45" />
+      <path
+        d="M40 40 A30 40 0 0 1 80 80 A50 50 0 0 1 160 80 A30 30 0 0 1 190 80"
+      />
+      <path
+        d="M40 80 A30 40 0 0 1 80 80 A30 40 0 0 0 120 80 A30 40 0 1 0 160 80 A30 40 0 1 1 200 80 "
+      />
+    </svg>
+
+    <svg id="three-circle-chart" width="300" height="150">
+      <g transform="translate(150, 75)">
+        <circle cx="0" cy="-20" r="30" fill="red" />
+        <circle cx="17.3" cy="10" r="30" fill="green" />
+        <circle cx="-17.3" cy="10" r="30" fill="blue" />
+      </g>
+    </svg>
+
+    <svg id="js-chart"></svg>
+
     <div class="viz"></div>
+
     <script src="static/libs/d3.min.js"></script>
     <script src="script.js"></script>
   </body>

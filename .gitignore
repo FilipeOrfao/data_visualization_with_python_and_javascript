@@ -1,2 +1,4 @@
 *.pdf
 dataviz-with-python-and-js-ed-2-master
+*images/
+*.scrapy

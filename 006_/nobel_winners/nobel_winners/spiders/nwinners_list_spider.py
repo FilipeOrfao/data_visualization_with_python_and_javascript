@@ -27,6 +27,7 @@ class NWinnerSpider(scrapy.Spider):
     start_urls = ["http://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country"]
 
     def parse(self, response):
+        filename = response.url.split("/")[-1]
         h3s = response.xpath("//h3")
 
         for h3 in h3s:
@@ -43,16 +44,18 @@ class NWinnerSpider(scrapy.Spider):
                             dont_filter=True,
                         )
                         request.meta["item"] = NWinnerItem(**wdata)
-                        yield NWinnerItem(**wdata)
+                        yield request
+                        # yield NWinnerItem(**wdata)
 
     def parse_bio(self, response):
         item = response.meta["item"]
-        href = response.xpath('//li[@id="t-wikibase"]/a/@href')
+        href = response.xpath('//li[@id="t-wikibase"]/a/@href').extract()
         if href:
             url = href[0]
             wiki_code = url.split("/")[-1]
+            url = "https://wikidata.org/wiki/" + wiki_code
             request = scrapy.Request(
-                href[0],
+                url,
                 callback=self.parse_wikidata,
                 dont_filter=True,
             )
@@ -74,16 +77,17 @@ class NWinnerSpider(scrapy.Spider):
             if prop.get("link"):
                 link_html = "/a"
             # select div with property-code id
-            code_block = response.xpath(f'//*[@id={prop["code"]}]')
+            code_block = response.xpath(f'//*[@id="{prop["code"]}"]')
             # continure if the code_clock exists
             if code_block:
                 # we can use the css selector, which has superior class selection
-                values = code_block.css(".wikibase-snakeview-value")
+                values = code_block.css(".wikibase-snakview-value")
                 # the first value coresponds to the code property eg '10 August 1879'
                 value = values[0]
-                prop_sel = value.xpath(f"{link_html}/text()")
+                prop_sel = value.xpath(f".{link_html}/text()")
                 if prop_sel:
                     item[prop["name"]] = prop_sel[0].extract()
+
         yield item
 
 

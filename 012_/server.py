@@ -1,11 +1,15 @@
 from pathlib import Path
 from typing import Union
 from fastapi import FastAPI, Response, Request
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/js", StaticFiles(directory="."), name="js")
+app.mount("/data", StaticFiles(directory="data"), name="data")
 
 template_obj = Jinja2Templates(directory="static")
 

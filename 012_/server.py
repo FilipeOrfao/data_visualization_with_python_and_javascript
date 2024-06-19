@@ -26,12 +26,11 @@ def greet(who):
 
 
 @app.get("/winners")
-def winners_list(request: Request):
-    # return {"these": "are the winners"}
+async def winners_list(request: Request):
     return template_obj.TemplateResponse(
-        request=request,
         name="testj2.html",
         context={
+            "request": request,
             "heading": "A little winners list",
             "winners": [
                 {"name": "Albert Einstein", "category": "Physics"},

@@ -1,9 +1,13 @@
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional
 from fastapi import FastAPI, Response, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
+import pandas as pd
+
+
+from connection import connect_to_db
 
 app = FastAPI()
 
@@ -42,6 +46,27 @@ async def winners_list(request: Request):
                 {"name": "Dorothy Hodgkin", "category": "Chemistry"},
             ],
         },
+    )
+
+
+@app.get("/api/winners")
+def get_country_data(
+    category: Optional[str] = None,
+    country: Optional[str] = None,
+    year: Optional[int] = None,
+):
+
+    print(
+        f"""category:{category}
+country:{country}
+year:{year}
+"""
+    )
+
+    print(
+        pd.read_sql_query(
+            "SELECT * FROM winners WHERE country='Japan'", connect_to_db()
+        )
     )
 
 

@@ -42,3 +42,9 @@ h1.title {
   padding: 0 1.5em;
   background: #ffebd9;
 }
+
+@media screen and (max-width: 1000px) {
+  #by-country-container {
+    flex-direction: column-reverse;
+  }
+}

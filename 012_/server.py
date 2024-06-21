@@ -55,6 +55,7 @@ def get_country_data(
     country: Optional[str] = None,
     year: Optional[int] = None,
     gender: Optional[str] = None,
+    name: Optional[str] = None,
 ):
 
     engine = connect_to_db()
@@ -73,13 +74,17 @@ def get_country_data(
         query += " AND country = :country"
         params["country"] = country.capitalize()
 
+    if name:
+        query += " AND name = :name"
+        params["name"] = name.title()
+
     if year:
         query += " AND year = :year"
         params["year"] = year
 
     with engine.connect() as conn:
         winners = pd.read_sql_query(text(query), conn, params=params)
-    print(winners)
+    # print(winners)
     return winners.to_dict(orient="records")
 
 

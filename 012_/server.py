@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import pandas as pd
-
+from sqlalchemy import text
 
 from connection import connect_to_db
 
@@ -54,20 +54,33 @@ def get_country_data(
     category: Optional[str] = None,
     country: Optional[str] = None,
     year: Optional[int] = None,
+    gender: Optional[str] = None,
 ):
 
-    print(
-        f"""category:{category}
-country:{country}
-year:{year}
-"""
-    )
+    engine = connect_to_db()
+    query = "SELECT * FROM winners WHERE 1=1"
+    params = {}
 
-    print(
-        pd.read_sql_query(
-            "SELECT * FROM winners WHERE country='Japan'", connect_to_db()
-        )
-    )
+    if category:
+        query += " AND category = :category"
+        params["category"] = category.capitalize()
+
+    if gender:
+        query += " AND category = :category"
+        params["category"] = category
+
+    if country:
+        query += " AND country = :country"
+        params["country"] = country.capitalize()
+
+    if year:
+        query += " AND year = :year"
+        params["year"] = year
+
+    with engine.connect() as conn:
+        winners = pd.read_sql_query(text(query), conn, params=params)
+    print(winners)
+    return winners.to_dict(orient="records")
 
 
 # use this for the reload to work

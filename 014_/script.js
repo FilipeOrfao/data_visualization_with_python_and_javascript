@@ -519,3 +519,45 @@ let layout = {
 };
 
 Plotly.newPlot("award_age", traces, layout);
+
+// fetching JSON files
+
+d3.json("data/nobel_winners.json").then((data) => {
+  console.log(`Dataset: ${data}`);
+  makeChart(data);
+});
+
+function makeChart(data) {
+  let cat_group = d3.rollup(
+    data,
+    (v) => v.length,
+    (d) => d.gender,
+    (d) => d.category
+  );
+
+  let male = cat_group.get("male");
+  let female = cat_group.get("female");
+  let categories = [...male.keys()].sort();
+
+  let traceM = {
+    y: categories,
+    x: categories.map((c) => male.get(c)),
+    name: "male prize total",
+    type: "bar",
+    orientation: "h",
+  };
+  let traceF = {
+    y: categories,
+    x: categories.map((c) => female.get(c)),
+    name: "female prize total",
+    type: "bar",
+    orientation: "h",
+  };
+
+  let traces = [traceM, traceF];
+  let layout = { bardmode: "group", margin: { l: 160 } };
+
+  Plotly.newPlot("gender-category", traces, layout);
+}
+
+// user-driven plotly with javascript and html

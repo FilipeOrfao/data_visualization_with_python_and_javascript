@@ -561,3 +561,54 @@ function makeChart(data) {
 }
 
 // user-driven plotly with javascript and html
+
+window.d3 = d3;
+let info;
+d3.json("data/nobel_winners.json").then((_info) => {
+  console.log(_info);
+  info = _info;
+  updateChart();
+});
+
+let selectedGroup = "gender";
+
+function updateChart() {
+  let traces = [
+    {
+      type: "violin",
+      x: info.map((d) => d[selectedGroup]),
+      y: info.map((d) => d.award_age),
+      points: "none",
+      box: { visible: true },
+      line: { color: "green" },
+      meanline: { visible: true },
+    },
+  ];
+
+  let layout = {
+    title: "Age distributions of the Nobel Prizewinners",
+    yaxis: {
+      zeroline: false,
+    },
+    xaxis: {
+      categoryorder: "category ascending",
+    },
+  };
+
+  // it is react not update
+  Plotly.react("violin-group", traces, layout);
+}
+
+let availableGroups = ["gender", "category"];
+availableGroups.forEach((g) => {
+  d3.select("#nobel-group")
+    .append("option")
+    .property("selected", g === selectedGroup)
+    .attr("value", g)
+    .text(g);
+});
+
+d3.select("#nobel-group").on("change", function (e) {
+  selectedGroup = d3.select(this).property("value");
+  updateChart();
+});

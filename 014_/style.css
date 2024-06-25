@@ -48,3 +48,17 @@ h1.title {
     flex-direction: column-reverse;
   }
 }
+
+/* User-Driven Plotly with JavaScript and HTML */
+
+#chart-controls {
+  display: flex;
+  justify-content: conter;
+  font-family: sans-serif;
+  font-size: 0.7em;
+  margin: 20px 0;
+}
+
+select {
+  padding: 2px;
+}

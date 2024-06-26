@@ -3,12 +3,120 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Visualizing the Nobel Prize</title>
+    <link rel="stylesheet" href="static/css/style.css" />
   </head>
+
   <body>
-    <div class="viz"></div>
+    <div id="chart">
+      <div id="title">Visualizing the Nobel Prize</div>
+      <div id="info">
+        This is a companion piece to the book
+        <a href="http://"> Data visualization with Python and JavaScript</a>,
+        in which its construction is detailed. The data used was scraped
+        Wikipedia using the
+        <a
+          href="https://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country"
+        >
+          list of winners by country</a
+        >
+        as a starting point. The accompanying GitHub repo is
+        <a
+          href="https://github.com/FilipeOrfao/data_visualization_with_python_and_javascript"
+        >
+          here</a
+        >.
+      </div>
+
+      <!-- place holder fo the visula componets -->
+      <div class="nbviz">
+        <!-- MENU START -->
+        <div id="nobel-menu">
+          <div id="cat-select">
+            Category
+            <select></select>
+          </div>
+
+          <div id="gender-select">
+            Gender
+            <select>
+              <option value="All">All</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
+
+          <div id="country-select">
+            Country
+            <select></select>
+          </div>
+
+          <div id="metric-radio">
+            Number of Winners:&nbsp;
+            <form>
+              <label
+                >absolute<input type="radio" name="mode" value="0"
+              /></label>
+              <label
+                >per-capita<input type="radio" name="mode" value="1"
+              /></label>
+            </form>
+          </div>
+        </div>
+        <!-- MENU END -->
+        <!-- NOBEL-VIZ START -->
+        <div id="char-holder" class="_dev">
+          <!-- TIME LINE OF PRIZES -->
+          <div id="nobel-time"></div>
+          <!-- MAP GRAPH -->
+          <div id="nobel-map"></div>
+          <div id="map-tooltip">
+            <h2></h2>
+            <p></p>
+          </div>
+          <!-- LIST OF WINNERS -->
+          <div id="nobel-list">
+            <h2>Selected winners</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th id="year">Year</th>
+                  <th id="category">Category</th>
+                  <th id="name">Name</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <!-- BIOGRAPHY -->
+          <div id="nobel-winner">
+            <div id="picbox"></div>
+            <div id="winners-title"></div>
+            <div id="infobox">
+              <div class="property">
+                <div class="label">Category</div>
+                <span name="category"></span>
+              </div>
+              <div class="property">
+                <div class="label">Category</div>
+                <span name="year"></span>
+              </div>
+              <div class="property">
+                <div class="label">Category</div>
+                <span name="country"></span>
+              </div>
+            </div>
+            <div id="biobox"></div>
+            <div id="readmore"><a href="#">Read more at Wikipedia</a></div>
+          </div>
+          <!-- NOBEL BAR CHART -->
+          <div id="nobel-bar"></div>
+        </div>
+        <!-- END OF NOBEL-VIZ  -->
+      </div>
+    </div>
+
     <script src="static/libs/d3.min.js"></script>
-    <script src="script.js"></script>
+    <script src="static/js/nbviz_main.js"></script>
   </body>
 </html>

@@ -121,6 +121,11 @@ function updateBarChart(data) {
     )
     .attr("x", (d) => xScale(d.code))
     .attr("width", xScale.bandwidth())
+    .attr("y", (d) => yScale(0))
+    .attr("height", (d) => height - yScale(0))
+    .transition()
+    .duration(800)
+    .delay((d, i) => i * 10)
     .attr("y", (d) => yScale(d.value))
     .attr("height", (d) => height - yScale(d.value));
 }
@@ -129,3 +134,7 @@ nbviz.callbacks.push(() => {
   let data = nbviz.getCountryData();
   updateBarChart(data);
 });
+
+// make it with this animation
+// https://d3-graph-gallery.com/graph/barplot_animation_start.html
+// https://d3-graph-gallery.com/index.html

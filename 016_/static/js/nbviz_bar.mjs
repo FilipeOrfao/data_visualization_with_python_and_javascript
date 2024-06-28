@@ -49,9 +49,19 @@ let width = boundingRect.width - margin.left - margin.right,
 
 let xPaddingLeft = 20;
 
+// SCALE
 let xScale = d3.scaleBand().range([xPaddingLeft, width]).padding(0.1);
 
 let yScale = d3.scaleLinear().range([height, 0]);
+
+// AXES
+let xAxis = d3.axisBottom().scale(xScale);
+
+let yAxis = d3
+  .axisLeft()
+  .scale(yScale)
+  .ticks(10)
+  .tickFormat((d) => (nbviz.valuePerCapita ? d.toExponential() : d));
 
 let svg = chartHolder
   .append("svg")
@@ -61,14 +71,33 @@ let svg = chartHolder
   .classed("chart", true)
   .attr("tranform", `translate(${margin.left},${margin.top})`);
 
+// ASS AXES
+svg
+  .append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")");
+
+svg.append("g").attr("class", "y axis");
+
 // updateBarChart(nobelData);
 
 function updateBarChart(data) {
   data = data.filter((d) => d.value > 0);
-
+  data = data.slice(0, 20);
   xScale.domain(data.map((d) => d.code));
 
-  yScale.domain([0, d3.max(data, (d) => d.value)]);
+  yScale.domain([0, d3.max(data, (d) => +d.value)]);
+
+  svg
+    .select(".x.axis")
+    .call(xAxis)
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-65)");
+
+  svg.select("dy", ".15em").call(yAxis);
 
   let bars = svg
     .selectAll(".bar")

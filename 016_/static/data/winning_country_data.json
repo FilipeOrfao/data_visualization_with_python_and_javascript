@@ -1,4 +1,33 @@
 {
+  "Hong Kong": {
+    "name": "Hong Kong",
+    "capital": "City of Victoria",
+    "altSpellings": ["HK", "香港"],
+    "relevance": "0",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "translations": {
+      "de": "Hong Kong",
+      "es": "Hong Kong",
+      "fr": "Hong Kong",
+      "ja": "香港",
+      "it": "Hong Kong"
+    },
+    "population": 7298600,
+    "latlng": [22.25, 114.16666666],
+    "demonym": "Chinese",
+    "area": 1104.0,
+    "gini": 53.3,
+    "timezones": ["UTC+08:00"],
+    "borders": ["CHN"],
+    "nativeName": "香港",
+    "callingCodes": ["852"],
+    "topLevelDomain": [".hk"],
+    "alpha2Code": "HK",
+    "alpha3Code": "HKG",
+    "currencies": ["HKD"],
+    "languages": ["en", "zh"]
+  },
   "Turkey": {
     "gini": 39.0,
     "name": "Turkey",
@@ -368,9 +397,9 @@
     "capital": "Sana'a",
     "population": 25956000
   },
-  "Russia and Soviet Union": {
+  "Russia": {
     "gini": 40.1,
-    "name": "Russia and Soviet Union",
+    "name": "Russia",
     "alpha3Code": "RUS",
     "area": 17124442.0,
     "latlng": [60.0, 100.0],

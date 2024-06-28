@@ -1,6 +1,6 @@
 import nbviz from "./nbviz_core.mjs";
-import { initMenu } from "./nbviz_menu.mjs";
-import { initMap } from "./nbviz_map.mjs";
+// import { initMenu } from "./nbviz_menu.mjs";
+// import { initMap } from "./nbviz_map.mjs";
 import "./nbviz_bar.mjs";
 import "./nbviz_details.mjs";
 import "./nbviz_time.mjs";
@@ -19,8 +19,8 @@ function ready([worldMap, countryNames, countryData, winnersData]) {
   // MAKE OUE FILTER AND ITS DIMENTIONS
   nbviz.makeFilterAndDimensions(winnersData);
   // INITIALIZE MENU AND MAP
-  initMenu();
-  initMap(worldMap, countryNames);
+  // initMenu();
+  // initMap(worldMap, countryNames);
   // TRIGGER UPDATE WITH FULL WINNES DATASET
   nbviz.onDataChange();
 }

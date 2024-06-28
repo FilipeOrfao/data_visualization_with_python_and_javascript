@@ -82,6 +82,15 @@ a:hover {
   widows: 700px;
 }
 
+#nobel-bar {
+  width: 600px;
+  height: 400px;
+}
+
+.bar {
+  fill: blue;
+}
+
 #nobel-list {
   top: 160px;
   height: 340px;

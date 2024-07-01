@@ -1,6 +1,6 @@
 import nbviz from "./nbviz_core.mjs";
 
-let chartHolder = d3.select("#nobel-time");
+var chartHolder = d3.select("#nobel-time");
 
 let margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
@@ -13,7 +13,7 @@ let svg = chartHolder
   .attr("width", width + margin.left + margin.right)
   .attr("height", width + margin.top + margin.bottom)
   .append("g")
-  .attr("tranform", `translate(${margin.left},${margin.top})`);
+  .attr("transform", `translate(${margin.left},${margin.top})`);
 
 // SCALE
 let xScale = d3
@@ -25,7 +25,6 @@ let xScale = d3
 let yScale = d3.scaleBand().range([height, 0]).domain(d3.range(15));
 
 // AXIS
-
 let xAxis = d3
   .axisBottom()
   .scale(xScale)
@@ -34,7 +33,7 @@ let xAxis = d3
 svg
   .append("g")
   .attr("class", "x axis")
-  .attr("transform", `translate(0,${height})`)
+  .attr("transform", "translate(0," + height + ")")
   .call(xAxis)
   .selectAll("text")
   .style("text-anchor", "end")
@@ -42,17 +41,18 @@ svg
   .attr("dy", ".15em")
   .attr("transform", "rotate(-65)");
 
-// CATEGORY LABELS
-
+// LABELS
 let catLabels = chartHolder
   .select("svg")
   .append("g")
-  .attr("transform", "translate(10,10)")
   .attr("class", "labels")
+  .attr("transform", "translate(10, 10)")
   .selectAll("label")
   .data(nbviz.CATEGORIES)
   .join("g")
-  .attr("transform", (d, i) => `translate(0,${i * 15})`);
+  .attr("transform", function (d, i) {
+    return "translate(0," + i * 10 + ")";
+  });
 
 catLabels
   .append("circle")

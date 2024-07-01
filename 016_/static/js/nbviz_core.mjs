@@ -21,10 +21,21 @@ nbviz.CATEGORIES = [
 
 nbviz.categoryFill = (category) => {
   var i = nbviz.CATEGORIES.indexOf(category);
-  return d3.schemaCategory10[i];
+  return d3.schemeCategory10[i];
 };
 
-let nestDataByYear = (entries) => {};
+nbviz.nestDataByYear = (entries) => {
+  let yearGroups = d3.group(entries, (d) => d.year);
+  // this sorts the categories of
+  let keyValues = Array.from(yearGroups, ([key, values]) => {
+    let year = key;
+    let prizes = values;
+    prizes = prizes.sort((p1, p2) => (p1.category > p2.category ? 1 : -1));
+    return { key: year, values: prizes };
+  });
+  console.log(keyValues);
+  return keyValues;
+};
 
 nbviz.makeFilterAndDimensions = (winnersData) => {
   // ADD OUT FILTER AND CREATE CATEGORY DIMENSIONS

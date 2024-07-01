@@ -33,7 +33,7 @@ nbviz.nestDataByYear = (entries) => {
     prizes = prizes.sort((p1, p2) => (p1.category > p2.category ? 1 : -1));
     return { key: year, values: prizes };
   });
-  console.log(keyValues);
+  // console.log(keyValues);
   return keyValues;
 };
 
@@ -59,6 +59,7 @@ nbviz.filterByCategory = (entries) => {};
 nbviz.getCountryData = function () {
   let countryGroups = nbviz.countryDim.group().all();
   // make main data ball
+  console.log(nbviz.data.countryData);
   let data = countryGroups
     .map(function (c) {
       let cData = nbviz.data.countryData[c.key];
@@ -68,11 +69,18 @@ nbviz.getCountryData = function () {
         value = value /= cData.population;
       }
       // console.log(cData);
-      return {
-        key: c.key, // e.g. Japan
-        value: value, // e.g. 19 (prizes)
-        code: cData.alpha3Code, // e.g. JPN
-      };
+      try {
+        return {
+          key: c.key, // e.g. Japan
+          value: value, // e.g. 19 (prizes)
+          code: cData.alpha3Code, // e.g. JPN
+        };
+      } catch (error) {
+        console.log(c);
+        console.log(c.key);
+        console.log(nbviz.data.countryData[c.key]);
+        console.log(error);
+      }
     })
     .sort(function (a, b) {
       return b.value - a.value; // descending

@@ -540,5 +540,114 @@
     "latlng": [35.0, 33.0],
     "capital": "Nicosia",
     "population": 858000
+  },
+
+  "Ukraine": {
+    "gini": 26.1,
+    "name": "Ukraine",
+    "alpha3Code": "UKR",
+    "area": 603628.0,
+    "latlng": [48.3794, 31.1656],
+    "capital": "Kyiv",
+    "population": 41723998
+  },
+  "Tibet": {
+    "gini": null,
+    "name": "Tibet",
+    "alpha3Code": "TIB",
+    "area": 1200000.0,
+    "latlng": [30.0, 90.0],
+    "capital": "Lhasa",
+    "population": 3100000
+  },
+  "South Korea": {
+    "gini": 31.6,
+    "name": "South Korea",
+    "alpha3Code": "KOR",
+    "area": 100210.0,
+    "latlng": [35.9078, 127.7669],
+    "capital": "Seoul",
+    "population": 51780579
+  },
+  "Philippines": {
+    "gini": 42.3,
+    "name": "Philippines",
+    "alpha3Code": "PHL",
+    "area": 300000.0,
+    "latlng": [13.0, 122.0],
+    "capital": "Manila",
+    "population": 109581078
+  },
+  "Palestine": {
+    "gini": 33.7,
+    "name": "Palestine",
+    "alpha3Code": "PSE",
+    "area": 6020.0,
+    "latlng": [31.9, 35.2],
+    "capital": "East Jerusalem",
+    "population": 4682467
+  },
+  "New Zealand": {
+    "gini": 33.9,
+    "name": "New Zealand",
+    "alpha3Code": "NZL",
+    "area": 268838.0,
+    "latlng": [-40.9006, 174.886],
+    "capital": "Wellington",
+    "population": 5084300
+  },
+  "Iraq": {
+    "gini": 29.5,
+    "name": "Iraq",
+    "alpha3Code": "IRQ",
+    "area": 438317.0,
+    "latlng": [33.0, 44.0],
+    "capital": "Baghdad",
+    "population": 40222493
+  },
+  "Ethiopia": {
+    "gini": 35.0,
+    "name": "Ethiopia",
+    "alpha3Code": "ETH",
+    "area": 1104300.0,
+    "latlng": [9.145, 40.4897],
+    "capital": "Addis Ababa",
+    "population": 114963588
+  },
+  "Congo, Democratic Republic": {
+    "gini": 42.1,
+    "name": "Congo, Democratic Republic",
+    "alpha3Code": "COD",
+    "area": 2344858.0,
+    "latlng": [-4.0383, 21.7587],
+    "capital": "Kinshasa",
+    "population": 89561403
+  },
+  "China (People's Republic of China)": {
+    "gini": 47.0,
+    "name": "China",
+    "alpha3Code": "CHN",
+    "area": 9640011.0,
+    "latlng": [35.0, 105.0],
+    "capital": "Beijing",
+    "population": 1444216107
+  },
+  "Bosnia and Herzegovina": {
+    "gini": 33.0,
+    "name": "Bosnia and Herzegovina",
+    "alpha3Code": "BIH",
+    "area": 51197.0,
+    "latlng": [43.9159, 17.6791],
+    "capital": "Sarajevo",
+    "population": 3280815
+  },
+  "Belarus": {
+    "gini": 27.2,
+    "name": "Belarus",
+    "alpha3Code": "BLR",
+    "area": 207600.0,
+    "latlng": [53.7098, 27.9534],
+    "capital": "Minsk",
+    "population": 9398861
   }
 }

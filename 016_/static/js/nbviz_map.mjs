@@ -69,10 +69,6 @@ let updateMap = (countryData) => {
       };
     });
 
-  let radiusScale = d3
-    .scaleSqrt()
-    .range([(nbviz.MIN_CENTROID_RADIUS, nbviz.MAX_CENTROID_RADIUS)]);
-
   let maxWinners = d3.max(mapData.map((d) => d.number));
   // DOMAIN OF VALUE-INDICATOR SCALE
   radiusScale.domain([0, maxWinners]);
@@ -116,6 +112,26 @@ let updateMap = (countryData) => {
     .select(".centroids")
     .selectAll(".centroid")
     .data(mapData, (d) => d.name);
+
+  // JOIN DATA TO CIRCLE INDICATORS
+  centroids
+    .join(
+      (enter) => {
+        return enter
+          .append("circle")
+          .attr("class", "centroid")
+          .attr("name", (d) => d.name)
+          .attr("cx", (d) => getCentroid(d)[0])
+          .attr("cy", (d) => getCentroid(d)[1]);
+      },
+      (update) => update,
+      (exit) => exit.style("opacity", 0)
+    )
+    .classed("active", (d) => d.name === nbviz.activeCountry)
+    .transition()
+    .duration(nbviz.TRANS_DURATION)
+    .style("opacity", 1)
+    .attr("r", (d) => radiusScale(+d.number));
 };
 
 nbviz.callbacks.push(() => {

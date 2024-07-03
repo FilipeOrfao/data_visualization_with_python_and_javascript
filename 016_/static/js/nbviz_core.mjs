@@ -1,6 +1,6 @@
 let nbviz = {};
 nbviz.ALL_CATS = "All Categories";
-nbviz.TRANS_DURATION = 2000;
+nbviz.TRANS_DURATION = 800;
 nbviz.MAX_CENTROID_RADIUS = 30;
 nbviz.MIN_CENTROID_RADIUS = 2;
 nbviz.COLORS = { palegold: "#E6BE8A" };
@@ -59,7 +59,6 @@ nbviz.filterByCategory = (entries) => {};
 nbviz.getCountryData = function () {
   let countryGroups = nbviz.countryDim.group().all();
   // make main data ball
-  console.log(nbviz.data.countryData);
   let data = countryGroups
     .map(function (c) {
       let cData = nbviz.data.countryData[c.key];
@@ -68,7 +67,6 @@ nbviz.getCountryData = function () {
       if (nbviz.valuePerCapita) {
         value = value /= cData.population;
       }
-      // console.log(cData);
       try {
         return {
           key: c.key, // e.g. Japan
@@ -76,9 +74,6 @@ nbviz.getCountryData = function () {
           code: cData.alpha3Code, // e.g. JPN
         };
       } catch (error) {
-        console.log(c);
-        console.log(c.key);
-        console.log(nbviz.data.countryData[c.key]);
         console.log(error);
       }
     })

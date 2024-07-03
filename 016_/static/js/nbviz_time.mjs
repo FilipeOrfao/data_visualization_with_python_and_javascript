@@ -86,6 +86,7 @@ let updateTimeChart = (data) => {
     .attr("fill", (d) => nbviz.categoryFill(d.category))
     .attr("cx", xScale.bandwidth() / 2)
     .attr("r", xScale.bandwidth() / 2)
+    .attr("cy", (d, i) => yScale(1000))
     .transition()
     .duration(800)
     .attr("cy", (d, i) => yScale(i));

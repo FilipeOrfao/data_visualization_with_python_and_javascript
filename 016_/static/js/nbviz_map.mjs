@@ -18,40 +18,51 @@ let projection = d3
 let path = d3.geoPath().projection(projection);
 // ADD GRATICULE
 let graticule = d3.geoGraticule().step([20, 20]);
+
 svg.append("path").datum(graticule).attr("class", "graticule").attr("d", path);
+
 // A RADIUS SCALE FOR OUR CENTROID INDICATORS
-let radiusScale = d3
-  .scaleSqrt()
-  .range([nbviz.MIN_CENTROID_RADIUS, nbviz.MAX_CENTROID_RADIUS]);
-// OBJECT TO MAP COUNTRY NAME TO GEOJSON OBJECT
-let cnameToCountry = {};
 
 let getCentroid = (d) => {
   let latlng = nbviz.data.countryData[d.name].latlng;
   return projection([latlng[1], latlng[0]]);
 };
 
+let radiusScale = d3
+  .scaleSqrt()
+  .range([nbviz.MIN_CENTROID_RADIUS, nbviz.MAX_CENTROID_RADIUS]);
+// OBJECT TO MAP COUNTRY NAME TO GEOJSON OBJECT
+let cnameToCountry = {};
+
 export let initMap = function (world, names) {
   // EXTRACT OUT REQUIRED FEATRUES FROM THE TOPOJSON
   let land = topojson.feature(world, world.objects.land),
     countries = topojson.feature(world, world.objects.countries).features,
     borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
+
   // CREATE OBJECT MAPPING COUNTRY NAMES TO GEOJSON SHAPES
   let idToCountry = {};
-  countries.forEach((c) => idToCountry[(c.id = c)]);
+  countries.forEach((c) => (idToCountry[c.id] = c));
 
   names.forEach((n) => (cnameToCountry[n.name] = idToCountry[n.id]));
+
   //MAIN WORLD MAP
   svg
     .insert("path", ".graticule")
     .datum(land)
     .attr("class", "land")
     .attr("d", path);
+
+  // WINNING COUNTRIES
+  svg.insert("g", ".graticule").attr("class", "countries");
+
   // COUNTRIES VALUE-INDICATORS
   svg.insert("g").attr("class", "centroids");
+
   // COUNDARY LINES
   svg
     .insert("path", ".graticule")
+    // filter separates exterior from interior arcs...
     .datum(borders)
     .attr("class", "boundary")
     .attr("d", path);

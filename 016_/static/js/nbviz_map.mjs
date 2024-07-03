@@ -68,6 +68,7 @@ export let initMap = function (world, names) {
     .attr("d", path);
 };
 
+let tooltip = d3.select("#map-tooltip");
 let updateMap = (countryData) => {
   // console.log(countryData);
   let mapData = countryData
@@ -91,16 +92,48 @@ let updateMap = (countryData) => {
 
   countries
     .join(
-      function (enter) {
-        enter
+      (enter) => {
+        return enter
           .append("path")
           .attr("d", (d) => path(d.geo))
           .attr("class", "country")
           .attr("name", (d) => d.name)
-          .on("mouseenter", function (event, d) {
+          .on("mouseenter", function (event) {
+            let country = d3.select(this);
+            // don't do anything if the country is not visible
+            if (!country.classed("visible")) {
+              return;
+            }
+
+            // get the contry data object
+            let cData = country.datum();
+            // if only one prize, use singular 'prize'
+            let prize_string =
+              cData.number === 1 ? " prize in " : " prizes in ";
+            // set the header and text of the tooltip
+            tooltip.select("h2").text(cData.name);
+            tooltip
+              .select("p")
+              .text(`${cData.number} ${prize_string} ${nbviz.activeCategory}`);
+
+            // set the border color according to selected
+            // prize category
+            let borderColor =
+              nbviz.activeCategory === nbviz.ALL_CATS
+                ? "goldenrod"
+                : nbviz.categoryFill(nbviz.activeCategory);
+            tooltip.style("border-color", borderColor);
+
+            let w = parseInt(tooltip.style("width")),
+              h = parseInt(tooltip.style("height"));
+
+            let mouseCoords = d3.pointer(event);
+            tooltip.style("top", mouseCoords[1] - h + "px");
+            tooltip.style("left", mouseCoords[0] - w / 2 + "px");
             d3.select(this).classed("active", true);
           })
           .on("mouseout", function (event, d) {
+            tooltip.style("left", "-9999px");
             d3.select(this).classed("active", false);
           });
       },

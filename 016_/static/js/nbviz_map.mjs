@@ -7,12 +7,34 @@ let width = boundingRect.width,
 let svg = mapContainer.append("svg");
 
 // PROJECTION
-let projection = d3
+let projection_eq = d3
   .geoEquirectangular()
   .scale(193 * (height / 480))
   .center([15, 15])
   .translate([width / 2, height / 2])
   .precision(0.1);
+
+let projection_cea = d3
+  .geoConicEqualArea()
+  .center([0, 26])
+  .scale(128)
+  .translate([width / 2, height / 2])
+  .precision(0.1);
+
+let projection_ceq = d3
+  .geoConicEquidistant()
+  .center([0, 22])
+  .scale(128)
+  .translate([width / 2, height / 2])
+  .precision(0.1);
+
+let projection_merc = d3
+  .geoMercator()
+  .scale((width + 1) / 2 / Math.PI)
+  .translate([width / 2, height / 2])
+  .precision(0.1);
+
+let projection = projection_eq;
 
 // CREATE PATH WITH PROJECTION
 let path = d3.geoPath().projection(projection);
@@ -130,6 +152,7 @@ let updateMap = (countryData) => {
             let mouseCoords = d3.pointer(event);
             tooltip.style("top", mouseCoords[1] - h + "px");
             tooltip.style("left", mouseCoords[0] - w / 2 + "px");
+
             d3.select(this).classed("active", true);
           })
           .on("mouseout", function (event, d) {

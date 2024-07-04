@@ -163,10 +163,58 @@ a:hover {
   shape-rendering: crispEdges;
 }
 
+/* NOBEL WINNERS LIST */
+
 #nobel-list {
   top: 160px;
   height: 340px;
   width: 290px;
   left: 700px;
   padding-left: 10px;
+}
+
+#nobel-list {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+#nobel-list table {
+  font-size: 10px;
+}
+
+#nobel-list table th#year {
+  width: 30px;
+}
+
+#nobel-list table th#category {
+  width: 120px;
+}
+
+#nobel-list table th#name {
+  width: 120px;
+}
+
+#nobel-list h2 {
+  font-size: 14px;
+  margin: 4px;
+  text-align: center;
+}
+
+#time-tooltip {
+  position: absolute;
+  pointer-events: none;
+  color: #eee;
+  font-size: 12px;
+  opacity: 0.7; /* a little transparent */
+  background: #222;
+  border: 2px solid #555;
+  border-color: goldenrod;
+  padding: 10px;
+  left: -999px;
+}
+
+#time-tooltip h2 {
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
 }

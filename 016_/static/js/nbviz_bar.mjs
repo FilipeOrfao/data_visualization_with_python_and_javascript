@@ -94,7 +94,7 @@ svg
   .text("Number of winners");
 
 // updateBarChart(nobelData);
-
+let tooltip = d3.select("#bar-tooltip");
 function updateBarChart(data) {
   data = data.filter((d) => d.value > 0);
   data = data.slice(0, 20);
@@ -127,7 +127,12 @@ function updateBarChart(data) {
     .duration(800)
     .delay((d, i) => i * 10)
     .attr("y", (d) => yScale(d.value))
-    .attr("height", (d) => height - yScale(d.value));
+    .attr("height", (d) => height - yScale(d.value))
+    .attr("value", (d) => d.value);
+
+  svg.selectAll(".bar").on("mouseenter", function (e) {
+    console.log(this.getAttribute("value"));
+  });
 }
 
 nbviz.callbacks.push(() => {

@@ -93,33 +93,30 @@ let updateTimeChart = (data) => {
     .duration(800)
     .attr("cy", (d, i) => yScale(i));
 
-  svg.selectAll("circle").on("mouseenter", function (event) {
-    let winner = d3.select(this).datum();
+  svg
+    .selectAll("circle")
+    .on("mouseenter", function (event) {
+      let winner = d3.select(this).datum();
 
-    time_tooltip.select("h2").text(winner.name);
-    time_tooltip.select("p").text(winner.category);
+      time_tooltip.select("h2").text(winner.name);
+      time_tooltip.select("p").text(winner.category);
+      time_tooltip.select(".name").text(winner.year);
 
-    // time_tooltip.style("border-color", borderColor);
+      // time_tooltip.style("border-color", borderColor);
 
-    let w = parseInt(time_tooltip.style("width")),
-      h = parseInt(time_tooltip.style("height"));
+      let w = parseInt(time_tooltip.style("width")),
+        h = parseInt(time_tooltip.style("height"));
 
-    let mouseCoords = d3.pointer(event);
-    time_tooltip.style("top", mouseCoords[1] - h - 10 + "px");
-    // time_tooltip.style("left", mouseCoords[0] - w / 2 + "px");
-    // time_tooltip.style("left", event.pageX + "px");
-    time_tooltip.style("left", event.layerX - w / 2 + "px");
-
-    // console.log(mouseCoords[0], mouseCoords[1]);
-
-    // console.log(winner);
-    console.log(time_tooltip.x);
-
-    // console.log(this.getBoundingClientRect().x);
-
-    // console.log(this.getAttribute("name"));
-    // console.log(this.getAttribute("category"));
-  });
+      let mouseCoords = d3.pointer(event);
+      time_tooltip.style("top", mouseCoords[1] - h - 10 + "px");
+      // time_tooltip.style("left", mouseCoords[0] - w / 2 + "px");
+      // time_tooltip.style("left", event.pageX + "px");
+      time_tooltip.style("left", event.layerX - w / 2 + "px");
+    })
+    .on("mouseout", function (event, d) {
+      time_tooltip.style("left", "-9999px");
+      d3.select(this).classed("active", false);
+    });
 };
 
 nbviz.callbacks.push(() => {

@@ -200,9 +200,61 @@ a:hover {
   text-align: center;
 }
 
+#nobel-list tr:hover {
+  cursor: pointer;
+  background: lightblue;
+}
+
+/* WINNER INFOBOX */
+
+#nobel-winner {
+  font-size: 11px;
+  overflow: auto;
+  overflow-x: hidden;
+  border-top: 4px solid;
+}
+
+#nobel-winner #winner-title {
+  font-size: 12px;
+  text-align: center;
+  padding: 2px;
+  font-weight: bold;
+}
+
+#nobel-winner #infobox .label {
+  display: inline-block;
+  width: 60px;
+  font-weight: bold;
+}
+
+#nobel-winner #biobox {
+  font-size: 11px;
+}
+
+#nobel-winner #biobox p {
+  text-align: justify;
+}
+
+#nobel-winner #picbox {
+  float: right;
+  margin-left: 5px;
+}
+
+#nobel-winner #picbox img {
+  width: 100px;
+}
+
+#nobel-winner #readmore {
+  font-weight: bold;
+  text-align: center;
+}
+
+/* TIME GRAPH TOOLTIP */
+
 #time-tooltip {
   position: absolute;
   pointer-events: none;
+  text-align: center;
   color: #eee;
   font-size: 12px;
   opacity: 0.7; /* a little transparent */

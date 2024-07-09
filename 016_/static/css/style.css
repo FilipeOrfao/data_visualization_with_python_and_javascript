@@ -263,6 +263,7 @@ a:hover {
   border-color: goldenrod;
   padding: 10px;
   left: -999px;
+  border-radius: 10px;
 }
 
 #time-tooltip h2 {

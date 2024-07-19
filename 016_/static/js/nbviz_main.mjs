@@ -4,6 +4,7 @@ import { initMap } from "./nbviz_map.mjs";
 import "./nbviz_bar.mjs";
 import "./nbviz_details.mjs";
 import "./nbviz_time.mjs";
+import "./nbviz_birth_month.mjs";
 
 Promise.all([
   d3.json("static/data/world-110m.json"),

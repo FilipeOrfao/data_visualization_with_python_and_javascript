@@ -47,6 +47,10 @@ nbviz.makeFilterAndDimensions = (winnersData) => {
 
   nbviz.categoryDim = nbviz.filter.dimension((o) => o.category);
 
+  nbviz.dateOfBirth = nbviz.filter.dimension((o) =>
+    o.date_of_birth.slice(5, 7)
+  );
+
   // nbviz.genderDim.filter(); // reset gender dimension
   // var countryGroup = nbviz.countryDim.group();
   // countryGroup.all();
@@ -81,6 +85,10 @@ nbviz.getCountryData = function () {
       return b.value - a.value; // descending
     });
   return data;
+};
+
+nbviz.getLaureateBirthMonth = function () {
+  return nbviz.dateOfBirth.group().all();
 };
 
 nbviz.callbacks = [];

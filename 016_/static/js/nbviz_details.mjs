@@ -62,7 +62,6 @@ let displayWinner = function (wData) {
   } else {
     nw.select("#picbox img").style("display", "none");
   }
-  console.log(wData.bio_image);
 
   nw.select("#readmore a").attr(
     "href",

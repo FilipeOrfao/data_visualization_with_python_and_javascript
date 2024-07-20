@@ -36,36 +36,74 @@ let svg = chartHolder
   .classed("chart", true)
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
+// X AXES
+svg
+  .append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")");
+
+// Y AXES
+svg
+  .append("g")
+  .attr("class", "y axis")
+  .append("text")
+  .attr("id", "y-axis-label")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 6)
+  .attr("dy", ".71em")
+  .style("text-anchor", "end")
+  .text("Number of winners");
+
 function updateBirthMonthBarChart(data) {
   //   data = data.filter((d) => d.value > 0);
   //   data = data.slice(0, 20);
-  //   xScale.domain(data.map((d) => d.code));
-  // yScale.domain([0, d3.max(data, (d) => +d.value)]);
-  //   svg
-  //     .select(".x.axis")
-  //     .call(xAxis)
-  //     .selectAll("text")
-  //     .style("text-anchor", "end")
-  //     .attr("dx", "-.8em")
-  //     .attr("dy", ".15em")
-  //     .attr("transform", "rotate(-65)");
-  //   svg.select(".y.axis").call(yAxis);
-  //   let bars = svg
-  //     .selectAll(".bar")
-  //     .data(data)
-  //     .join((enter) =>
-  //       enter.append("rect").attr("class", "bar").attr("x", xPaddingLeft)
-  //     )
-  //     .attr("x", (d) => xScale(d.code))
-  //     .attr("width", xScale.bandwidth())
-  //     .attr("y", (d) => yScale(0))
-  //     .attr("height", (d) => height - yScale(0))
-  //     .transition()
-  //     .duration(800)
-  //     .delay((d, i) => i * 10)
-  //     .attr("y", (d) => yScale(d.value))
-  //     .attr("height", (d) => height - yScale(d.value))
-  //     .attr("value", (d) => d.value);
+  let months = {
+    "01": "Jan",
+    "02": "Feb",
+    "03": "Mar",
+    "04": "Apr",
+    "05": "May",
+    "06": "Jun",
+    "07": "Jul",
+    "08": "Aug",
+    "09": "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
+  };
+
+  xScale.domain(data.map((d) => months[d.key]));
+
+  yScale.domain([0, d3.max(data, (d) => +d.value)]);
+
+  svg
+    .select(".x.axis")
+    .call(xAxis)
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-65)");
+
+  svg.select(".y.axis").call(yAxis);
+
+  let bars = svg
+    .selectAll(".bar")
+    .data(data)
+    .join((enter) =>
+      enter.append("rect").attr("class", "bar").attr("x", xPaddingLeft)
+    )
+    .attr("x", (d) => xScale(d.code))
+    .attr("width", xScale.bandwidth())
+    .attr("y", (d) => yScale(0))
+    .attr("height", (d) => height - yScale(0))
+    .transition()
+    .duration(800)
+    .delay((d, i) => i * 10)
+    .attr("y", (d) => yScale(d.value))
+    .attr("height", (d) => height - yScale(d.value))
+    .attr("value", (d) => d.value);
+
   //   svg.selectAll(".bar").on("mouseenter", function (e) {
   //     console.log(this.getAttribute("value"));
   //   });
@@ -73,6 +111,5 @@ function updateBirthMonthBarChart(data) {
 
 nbviz.callbacks.push(() => {
   let data = nbviz.getLaureateBirthMonth();
-  console.log(data);
   updateBirthMonthBarChart(data);
 });

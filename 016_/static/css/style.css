@@ -271,3 +271,11 @@ a:hover {
   padding: 0px;
   margin: 0px;
 }
+
+/* nobel-birth-month */
+
+#nobel-birth-month {
+  top: 510px;
+  height: 240px;
+  width: 700px;
+}

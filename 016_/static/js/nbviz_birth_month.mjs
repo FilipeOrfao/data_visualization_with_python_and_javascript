@@ -87,13 +87,17 @@ function updateBirthMonthBarChart(data) {
 
   svg.select(".y.axis").call(yAxis);
 
+  console.log(data.map((d) => months[d.key]));
+  // console.log(months[data.key[0]]);
+  console.log(xScale("Dec"));
+
   let bars = svg
     .selectAll(".bar")
     .data(data)
     .join((enter) =>
       enter.append("rect").attr("class", "bar").attr("x", xPaddingLeft)
     )
-    .attr("x", (d) => xScale(d.code))
+    .attr("x", (d) => xScale(months[d.key]))
     .attr("width", xScale.bandwidth())
     .attr("y", (d) => yScale(0))
     .attr("height", (d) => height - yScale(0))
@@ -104,9 +108,9 @@ function updateBirthMonthBarChart(data) {
     .attr("height", (d) => height - yScale(d.value))
     .attr("value", (d) => d.value);
 
-  //   svg.selectAll(".bar").on("mouseenter", function (e) {
-  //     console.log(this.getAttribute("value"));
-  //   });
+  // svg.selectAll(".bar").on("mouseenter", function (e) {
+  //   console.log(this.getAttribute("value"));
+  // });
 }
 
 nbviz.callbacks.push(() => {

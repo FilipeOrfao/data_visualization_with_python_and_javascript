@@ -54,22 +54,24 @@ svg
   .style("text-anchor", "end")
   .text("Number of winners");
 
+let month_tooltip = d3.select("#month-tooltip");
+
 function updateBirthMonthBarChart(data) {
   //   data = data.filter((d) => d.value > 0);
   //   data = data.slice(0, 20);
   let months = {
-    "01": "Jan",
-    "02": "Feb",
-    "03": "Mar",
-    "04": "Apr",
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
     "05": "May",
-    "06": "Jun",
-    "07": "Jul",
-    "08": "Aug",
-    "09": "Sep",
-    10: "Oct",
-    11: "Nov",
-    12: "Dec",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    10: "October",
+    11: "November",
+    12: "December",
   };
 
   xScale.domain(data.map((d) => months[d.key]));
@@ -86,10 +88,6 @@ function updateBirthMonthBarChart(data) {
     .attr("transform", "rotate(-65)");
 
   svg.select(".y.axis").call(yAxis);
-
-  console.log(data.map((d) => months[d.key]));
-  // console.log(months[data.key[0]]);
-  console.log(xScale("Dec"));
 
   let bars = svg
     .selectAll(".bar")
@@ -108,9 +106,13 @@ function updateBirthMonthBarChart(data) {
     .attr("height", (d) => height - yScale(d.value))
     .attr("value", (d) => d.value);
 
-  // svg.selectAll(".bar").on("mouseenter", function (e) {
-  //   console.log(this.getAttribute("value"));
-  // });
+  svg.selectAll(".bar").on("mouseenter", function (e) {
+    // console.log(this.getAttribute("value"));
+    let month = d3.select(this).datum();
+    // console.log(months[month.key]);
+    // month_tooltip.select("h2").text(month.value);
+    // month_tooltip.select("p").text(month.value);
+  });
 }
 
 nbviz.callbacks.push(() => {

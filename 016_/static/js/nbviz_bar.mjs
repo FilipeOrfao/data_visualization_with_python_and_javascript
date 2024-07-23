@@ -130,7 +130,7 @@ function updateBarChart(data) {
     .attr("height", (d) => height - yScale(d.value))
     .attr("value", (d) => d.value);
 
-  svg.selectAll(".bar").on("mouseenter", function (e) {
+  svg.selectAll("bar").on("mouseenter", function (e) {
     console.log(this.getAttribute("value"));
   });
 }

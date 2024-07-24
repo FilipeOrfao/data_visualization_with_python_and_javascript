@@ -88,7 +88,7 @@ function updateBirthMonthBarChart(data) {
     .attr("transform", "rotate(-65)");
 
   svg.select(".y.axis").call(yAxis);
-
+  // console.log(data);
   let bars = svg
     .selectAll(".bar")
     .data(data)

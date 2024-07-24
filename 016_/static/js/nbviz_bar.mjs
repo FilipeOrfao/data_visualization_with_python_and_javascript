@@ -94,7 +94,7 @@ svg
   .text("Number of winners");
 
 // updateBarChart(nobelData);
-let tooltip = d3.select("#bar-tooltip");
+let country_tooltip = d3.select("#bar-tooltip");
 function updateBarChart(data) {
   data = data.filter((d) => d.value > 0);
   data = data.slice(0, 20);
@@ -128,11 +128,28 @@ function updateBarChart(data) {
     .delay((d, i) => i * 10)
     .attr("y", (d) => yScale(d.value))
     .attr("height", (d) => height - yScale(d.value))
-    .attr("value", (d) => d.value);
+    .attr("value", (d) => d.value)
+    .attr("country", (d) => d.code);
+  console.log(data);
+  svg
+    .selectAll(".bar")
+    .on("mouseenter", function (e) {
+      let bar_info = d3.select(this).datum();
 
-  svg.selectAll("bar").on("mouseenter", function (e) {
-    console.log(this.getAttribute("value"));
-  });
+      country_tooltip.select("h2").text(bar_info.key);
+      country_tooltip.select("p").text(bar_info.value);
+
+      d3.select(this).classed("active", true);
+
+      country_tooltip
+        .style("left", e.layerX - 20 + "px")
+        .style("top", e.layerY - 80 + "px");
+    })
+    .on("mouseout", function (e) {
+      country_tooltip.style("left", "-9999px");
+      // month_tooltip.style("visl", "-9999px");
+      d3.select(this).classed("active", false);
+    });
 }
 
 nbviz.callbacks.push(() => {

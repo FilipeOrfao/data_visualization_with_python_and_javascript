@@ -104,15 +104,26 @@ function updateBirthMonthBarChart(data) {
     .delay((d, i) => i * 10)
     .attr("y", (d) => yScale(d.value))
     .attr("height", (d) => height - yScale(d.value))
-    .attr("value", (d) => d.value);
+    .attr("value", (d) => d.value)
+    .attr("month", (d) => months[d.key]);
 
-  svg.selectAll(".bar").on("mouseenter", function (e) {
-    // console.log(this.getAttribute("value"));
-    let month = d3.select(this).datum();
-    // console.log(months[month.key]);
-    // month_tooltip.select("h2").text(month.value);
-    // month_tooltip.select("p").text(month.value);
-  });
+  svg
+    .selectAll(".bar")
+    .on("mouseenter", function (e) {
+      let month = d3.select(this).datum();
+
+      month_tooltip.select("h2").text(month.value);
+      month_tooltip.select("p").text(months[month.key]);
+
+      month_tooltip
+        .style("left", e.layerX - 20 + "px")
+        .style("top", e.layerY - 80 + "px");
+    })
+    .on("mouseout", function (e) {
+      month_tooltip.style("left", "-9999px");
+      // month_tooltip.style("visl", "-9999px");
+      d3.select(this).classed("active", false);
+    });
 }
 
 nbviz.callbacks.push(() => {

@@ -112,8 +112,8 @@ function updateBirthMonthBarChart(data) {
     .on("mouseenter", function (e) {
       let month = d3.select(this).datum();
 
-      month_tooltip.select("h2").text(month.value);
-      month_tooltip.select("p").text(months[month.key]);
+      month_tooltip.select("h2").text(months[month.key]);
+      month_tooltip.select("p").text(month.value);
 
       month_tooltip
         .style("left", e.layerX - 20 + "px")

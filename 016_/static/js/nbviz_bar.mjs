@@ -130,7 +130,7 @@ function updateBarChart(data) {
     .attr("height", (d) => height - yScale(d.value))
     .attr("value", (d) => d.value)
     .attr("country", (d) => d.code);
-  console.log(data);
+
   svg
     .selectAll(".bar")
     .on("mouseenter", function (e) {

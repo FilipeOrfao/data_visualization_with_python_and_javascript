@@ -53,7 +53,7 @@ let displayWinner = function (wData) {
 
   nw.select("#biobox").html(wData.mini_bio);
   // add an imbage if available, otherwise remove the old one
-
+  // console.log(wData);
   if (wData.bio_image) {
     nw.select("#picbox img")
       //   .attr("src", "static/images/winners/" + wData.bio_image)

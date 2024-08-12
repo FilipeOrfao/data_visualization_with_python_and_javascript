@@ -14,6 +14,11 @@ a:hover {
   text-decoration: underline;
 }
 
+/* menu */
+#gender-select {
+  margin-left: 20px;
+}
+
 #chart {
   position: relative;
 }

@@ -56,9 +56,30 @@ nbviz.makeFilterAndDimensions = (winnersData) => {
   // countryGroup.all();
 };
 
-nbviz.filterByCountries = (entries) => {};
+nbviz.filterByCountries = (countryNames) => {
+  if (!countryNames.length) {
+    nbviz.countryDim.filter();
+  } else {
+    nbviz.countryDim.filter(function (name) {
+      return countryNames.indexOf(name) > -1;
+    });
+  }
 
-nbviz.filterByCategory = (entries) => {};
+  if (countryNames.length == 1) {
+    nbviz.activeCountry = countryNames[0];
+  } else {
+    nbviz.activeCategory = null;
+  }
+};
+
+nbviz.filterByCategory = (cat) => {
+  nbviz.activeCategory = cat;
+  if (cat === nbviz.ALL_CATS) {
+    nbviz.categoryDim.filter();
+  } else {
+    nbviz.categoryDim.filter(cat);
+  }
+};
 
 nbviz.getCountryData = function () {
   let countryGroups = nbviz.countryDim.group().all();

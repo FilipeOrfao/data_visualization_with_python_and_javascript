@@ -1,5 +1,5 @@
 import nbviz from "./nbviz_core.mjs";
-// import { initMenu } from "./nbviz_menu.mjs";
+import { initMenu } from "./nbviz_menu.mjs";
 import { initMap } from "./nbviz_map.mjs";
 import "./nbviz_bar.mjs";
 import "./nbviz_details.mjs";
@@ -24,5 +24,6 @@ function ready([worldMap, countryNames, countryData, winnersData]) {
   // initMenu();
   initMap(worldMap, countryNames);
   // TRIGGER UPDATE WITH FULL WINNES DATASET
+  initMenu();
   nbviz.onDataChange();
 }

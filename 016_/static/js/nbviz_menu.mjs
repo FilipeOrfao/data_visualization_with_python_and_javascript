@@ -78,4 +78,10 @@ export let initMenu = function () {
     nbviz.filterByCountries(countries);
     nbviz.onDataChange();
   });
+
+  d3.selectAll("#metric-radio input").on("change", function () {
+    let val = d3.select(this).property("value");
+    nbviz.valuePerCapita = parseInt(val);
+    nbviz.onDataChange();
+  });
 };

@@ -1,5 +1,6 @@
 import scrapy
 import re
+from datetime import datetime
 from nobel_laureates.items import NWinnerItem
 
 
@@ -12,7 +13,7 @@ class ListSpider(scrapy.Spider):
 
         countries = response.xpath("//h3")
 
-        for l in response.css("ol>li:has(>a)"):
+        for l in response.css("ol>li:has(>a)")[:100]:
             nwinner = NWinnerItem()
 
             nwinner["name"] = l.css("a::text").get()
@@ -47,38 +48,40 @@ class ListSpider(scrapy.Spider):
         # item["born_in"] = response.css(".infobox-data .bday::text").get()
         # some people do not have .bday
         try:
-            first_info_data = response.xpath("//td[@class='infobox-data']")[0].get()
-            item["date_of_birth"] = re.findall(
-                r"\b(\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4})\b",
-                first_info_data,
-            )[0]
+            # birth_info = response.xpath("//td[@class='infobox-data']")[0].get()
+            birth_info = response.xpath("//tr[contains(., 'Born')]/td")[0].get()
+            item["date_of_birth"] = extract_date(birth_info)
+
+            # item["date_of_birth"] = item["date_of_birth"].replace(",", "")
+            item["date_of_birth"] = fix_date(item["date_of_birth"])
 
         except IndexError:
             item["date_of_birth"] = None
 
-        # try:
-        #     item["date_of_death"] = (
-        #         response.xpath(
-        #             "//span[@class='bday']/parent::*/parent::*/parent::*/following-sibling::*[1]//text()"
-        #         )
-        #         .getall()[2]
-        #         .split(",")[-1]
-        #         .strip()[1:-2]
-        #     )
+        try:
+            # death_info = response.xpath("//td[@class='infobox-data']")[0].get()
+            death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
+            item["date_of_death"] = re.findall(
+                r"\b(\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4})\b",
+                death_info,
+            )[0]
 
-        # except IndexError:
-        #     item["date_of_death"] = None
+            # item["date_of_birth"] = item["date_of_birth"].replace(",", "")
+            item["date_of_death"] = fix_date(item["date_of_death"])
+
+        except IndexError:
+            item["date_of_death"] = None
 
         # fix this because it does not work for everyone use their position in the list
-        # try:
-        #     item["place_of_birth"] = (
-        #         response.xpath("//span[@class='bday']/parent::*/parent::*//text()")
-        #         .getall()[-1]
-        #         .split(",")[-1]
-        #         .strip()
-        #     )
-        # except IndexError:
-        #     item["place_of_birth"] = None
+        try:
+            item["place_of_birth"] = (
+                response.xpath("//span[@class='bday']/parent::*/parent::*//text()")
+                .getall()[-1]
+                .split(",")[-1]
+                .strip()
+            )
+        except IndexError:
+            item["place_of_birth"] = None
 
         # try:
         #     item["place_of_death"] = (
@@ -111,3 +114,21 @@ class ListSpider(scrapy.Spider):
         # ).extract()[0]
 
         yield item
+
+
+def extract_date(element):
+    date = re.findall(
+        r"\b(\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4})\b",
+        element,
+    )[0]
+    return date
+
+
+def fix_date(date):
+
+    if date[0].isdigit():
+        formatted_dates = datetime.strptime(date, "%d %B %Y").timestamp()
+    else:
+        formatted_dates = datetime.strptime(date, "%B %d %Y").timestamp()
+    # return date
+    return formatted_dates

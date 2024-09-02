@@ -13,7 +13,8 @@ class ListSpider(scrapy.Spider):
 
         countries = response.xpath("//h3")
 
-        for l in response.css("ol>li:has(>a)")[:100]:
+        for l in response.css("ol>li:has(>a)"):
+            # for l in response.css("ol>li:has(>a)")[:10]:
             nwinner = NWinnerItem()
 
             nwinner["name"] = l.css("a::text").get()
@@ -42,45 +43,32 @@ class ListSpider(scrapy.Spider):
 
     def parse_bio(self, response):
         item = response.meta["item"]
-        # item["country"] = response.xpath(
-        #     "//span[@class='bday']/parent::*/parent::*//text()"
-        # ).getall()[-1]
-        # item["born_in"] = response.css(".infobox-data .bday::text").get()
-        # some people do not have .bday
+
+        # some people just have the year
+        # getting date of birth
         try:
-            # birth_info = response.xpath("//td[@class='infobox-data']")[0].get()
             birth_info = response.xpath("//tr[contains(., 'Born')]/td")[0].get()
             item["date_of_birth"] = extract_date(birth_info)
 
-            # item["date_of_birth"] = item["date_of_birth"].replace(",", "")
             item["date_of_birth"] = fix_date(item["date_of_birth"])
 
         except IndexError:
             item["date_of_birth"] = None
 
-        try:
-            # death_info = response.xpath("//td[@class='infobox-data']")[0].get()
-            death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
-            item["date_of_death"] = re.findall(
-                r"\b(\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4})\b",
-                death_info,
-            )[0]
+        # getting date of death
+        # try:
+        #     death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
+        #     item["date_of_death"] = extract_date(death_info)
+        #     item["date_of_death"] = fix_date(item["date_of_death"])
 
-            # item["date_of_birth"] = item["date_of_birth"].replace(",", "")
-            item["date_of_death"] = fix_date(item["date_of_death"])
-
-        except IndexError:
-            item["date_of_death"] = None
+        # except IndexError:
+        #     item["date_of_death"] = None
 
         # fix this because it does not work for everyone use their position in the list
         try:
-            item["place_of_birth"] = (
-                response.xpath("//span[@class='bday']/parent::*/parent::*//text()")
-                .getall()[-1]
-                .split(",")[-1]
-                .strip()
-            )
-        except IndexError:
+            item["place_of_birth"] = extract_birth_country(birth_info)
+        except IndexError as e:
+            print(e)
             item["place_of_birth"] = None
 
         # try:
@@ -125,10 +113,21 @@ def extract_date(element):
 
 
 def fix_date(date):
-
-    if date[0].isdigit():
-        formatted_dates = datetime.strptime(date, "%d %B %Y").timestamp()
+    formatted_date = date.replace(",", "")
+    print(formatted_date)
+    if formatted_date[0].isdigit():
+        formatted_date = datetime.strptime(formatted_date, "%d %B %Y").timestamp()
     else:
-        formatted_dates = datetime.strptime(date, "%B %d %Y").timestamp()
+        formatted_date = datetime.strptime(formatted_date, "%B %d %Y").timestamp()
     # return date
-    return formatted_dates
+    return formatted_date
+
+
+def extract_birth_country(birth_info):
+    birth_country = re.findall(r"(>,*\s*\w+\s*\w*\s*\w*\s*\w*<|U\.S\.|US)", birth_info)[
+        -1
+    ]
+    birth_country = (
+        birth_country.replace("<", "").replace(">", "").replace(",", "").strip()
+    )
+    return birth_country

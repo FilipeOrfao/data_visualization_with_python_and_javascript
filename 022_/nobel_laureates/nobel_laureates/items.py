@@ -17,8 +17,8 @@ class NWinnerItem(scrapy.Item):
     link = scrapy.Field()  #
     year = scrapy.Field()  #
     category = scrapy.Field()  #
-    gender = scrapy.Field()
-    award_age = scrapy.Field()
+    gender = scrapy.Field()  #
+    award_age = scrapy.Field()  #
     date_of_birth = scrapy.Field()  #
     country = scrapy.Field()  #
     date_of_death = scrapy.Field()  #

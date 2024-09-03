@@ -9,12 +9,16 @@ class ListSpider(scrapy.Spider):
     allowed_domains = ["en.wikipedia.org"]
     start_urls = ["http://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country"]
 
+    custom_settings = {
+        "ITEM_PIPELINES": {"nobel_laureates.pipelines.NobelImagesPipeline": 1}
+    }
+
     def parse(self, response):
 
         countries = response.xpath("//h3")
 
-        # for l in response.css("ol>li:has(>a)")[:10]:
-        for l in response.css("ol>li:has(>a)"):
+        for l in response.css("ol>li:has(>a)")[:10]:
+            # for l in response.css("ol>li:has(>a)"):
             nwinner = NWinnerItem()
 
             nwinner["name"] = l.css("a::text").get()
@@ -96,6 +100,8 @@ class ListSpider(scrapy.Spider):
         except:
             item["award_age"] = None
 
+        item["gender"] = gender_cal(response)
+
         item["text"] = response.xpath(
             "/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[2]"
         ).extract()[0]
@@ -130,3 +136,19 @@ def extract_country(birth_info):
         birth_country.replace("<", "").replace(">", "").replace(",", "").strip()
     )
     return birth_country
+
+
+def gender_cal(html):
+    html_text = " ".join([i.get() for i in html.css("p::text")])
+    male = len(
+        re.findall(r"( he\.*\s*| him\.*\s*| his\.*\s*| He\.*\s*| Him\.*\s*)", html_text)
+    )
+    female = len(
+        re.findall(r"( she\.*\s*| her\.*\s*| She\.*\s*| Her\.*\s*)", html_text)
+    )
+    if male > female:
+        return "male"
+    elif male < female:
+        return "female"
+    else:
+        return None

@@ -6,12 +6,12 @@ from nobel_laureates.items import NWinnerItem
 
 class ListSpider(scrapy.Spider):
     name = "laureates_list"
-    allowed_domains = ["en.wikipedia.org"]
+    # allowed_domains = ["en.wikipedia.org"]
     start_urls = ["http://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country"]
 
-    custom_settings = {
-        "ITEM_PIPELINES": {"nobel_laureates.pipelines.NobelImagesPipeline": 1}
-    }
+    # custom_settings = {
+    #     "ITEM_PIPELINES": {"nobel_laureates.pipelines.NobelImagesPipeline": 300},
+    # }
 
     def parse(self, response):
 
@@ -85,13 +85,15 @@ class ListSpider(scrapy.Spider):
             item["place_of_death"] = None
 
         try:
-            item["profile_pic"] = (
-                f'https:{"/".join(response.css(".mw-file-element::attr(src)").get().split("/")[:-1])}'.replace(
-                    "/thumb", ""
+            item["image_urls"] = [
+                (
+                    f'https:{"/".join(response.css(".mw-file-element::attr(src)").get().split("/")[:-1])}'.replace(
+                        "/thumb", ""
+                    )
                 )
-            )
+            ]
         except:
-            item["profile_pic"] = None
+            item["image_urls"] = None
 
         try:
             item["award_age"] = int(item["year"]) - int(

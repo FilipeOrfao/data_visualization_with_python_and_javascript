@@ -11,7 +11,7 @@ BOT_NAME = "nobel_laureates"
 
 SPIDER_MODULES = ["nobel_laureates.spiders"]
 NEWSPIDER_MODULE = "nobel_laureates.spiders"
-ITEM_PIPELINES = {"scrapy.pipelines.images.ImagesPipeline": 1}
+# ITEM_PIPELINES = {"scrapy.pipelines.images.ImagesPipeline": 1}
 
 IMAGES_STORE = "images"
 

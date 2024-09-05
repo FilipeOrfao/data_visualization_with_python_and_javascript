@@ -9,16 +9,14 @@ class ListSpider(scrapy.Spider):
     # allowed_domains = ["en.wikipedia.org"]
     start_urls = ["http://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country"]
 
-    custom_settings = {
-        "ITEM_PIPELINES": {"scrapy.pipelines.images.ImagesPipeline": 300},
-    }
+    # custom_settings = {
+    #     "ITEM_PIPELINES": {"scrapy.pipelines.images.ImagesPipeline": 300},
+    # }
 
     def parse(self, response):
 
-        countries = response.xpath("//h3")
-
         for l in response.css("ol>li:has(>a)"):
-            # for l in response.css("ol>li:has(>a)"):
+
             nwinner = NWinnerItem()
 
             nwinner["name"] = l.css("a::text").get()

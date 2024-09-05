@@ -31,8 +31,6 @@ class ListSpider(scrapy.Spider):
                 nwinner["year"] = None
             nwinner["link"] = f'{l.css("a::attr(href)").get()}'
 
-            # yield nwinner
-
             request = scrapy.Request(
                 f'https://en.wikipedia.org{nwinner["link"]}',
                 callback=self.parse_bio,
@@ -83,13 +81,13 @@ class ListSpider(scrapy.Spider):
             item["place_of_death"] = None
 
         try:
+
             item["image_urls"] = [
-                (
-                    f'https:{"/".join(response.css(".mw-file-element::attr(src)").get().split("/")[:-1])}'.replace(
-                        "/thumb", ""
-                    )
+                f'https:{"/".join(response.css(".infobox.vcard img::attr(src)").get().split("/")[:-1])}'.replace(
+                    "/thumb", ""
                 )
             ]
+
         except:
             item["image_urls"] = None
 

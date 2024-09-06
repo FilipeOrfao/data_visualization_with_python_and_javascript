@@ -25,5 +25,4 @@ class NWinnerItem(scrapy.Item):
     place_of_birth = scrapy.Field()  #
     place_of_death = scrapy.Field()
     image_urls = scrapy.Field()  #
-    # images = scrapy.Field()  #
     text = scrapy.Field()  #

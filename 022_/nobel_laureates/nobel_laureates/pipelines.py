@@ -6,7 +6,8 @@
 
 # useful for handling different item types with a single interface
 # import scrapy
-# from itemadapter import ItemAdapter
+from itemadapter import ItemAdapter
+
 # from scrapy.pipelines.images import ImagesPipeline
 # from scrapy.exceptions import DropItem
 
@@ -14,6 +15,16 @@
 class NobelLaureatesPipeline:
     def process_item(self, item, spider):
         return item
+
+
+class NobelItemCountryFix:
+    def process_item(self, item, spider):
+        adapter = ItemAdapter(item)
+        if adapter.get("place_of_death") in ["US", "U.S."]:
+            adapter["place_of_death"] = "USA"
+            return item
+        else:
+            return item
 
 
 # class NobelImagesPipeline(ImagesPipeline):

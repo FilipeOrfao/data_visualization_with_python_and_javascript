@@ -11,7 +11,11 @@ class ListSpider(scrapy.Spider):
 
     custom_settings = {
         # "ITEM_PIPELINES": {"scrapy.pipelines.images.ImagesPipeline": 300},
-        "ITEM_PIPELINES": {"nobel_laureates.pipelines.NobelItemCountryFix": 300}
+        "ITEM_PIPELINES": {
+            "nobel_laureates.pipelines.NobelItemPlaceOfDeathFix": 300,
+            "nobel_laureates.pipelines.NobelItemPlaceOfBirthFix": 310,
+            "nobel_laureates.pipelines.NobelItemCountryFix": 320,
+        },
     }
 
     def parse(self, response):

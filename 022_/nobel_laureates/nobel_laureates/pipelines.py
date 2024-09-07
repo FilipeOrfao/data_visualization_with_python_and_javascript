@@ -17,41 +17,33 @@ class NobelLaureatesPipeline:
         return item
 
 
-class NobelItemCountryFix:
+class NobelItemPlaceOfDeathFix:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter.get("place_of_death") in ["US", "U.S."]:
             adapter["place_of_death"] = "USA"
-            return item
-        else:
-            return item
+        elif adapter.get("place_of_death") in ["Republic of China"]:
+            adapter["place_of_death"] = "China"
+        elif adapter.get("place_of_death") in ["Russian Empire"]:
+            adapter["place_of_death"] = "Russian"
+        return item
 
 
-# class NobelImagesPipeline(ImagesPipeline):
-#     def get_media_requests(self, item, info):
-#         print("hello there")
-#         if item["profile_pic"]:
-#             yield scrapy.Request(item["profile_pic"])
-
-#     def item_completed(self, results, item, info):
-#         image_paths = [img["path"] for ok, img in results if ok]
-#         if not image_paths:
-#             raise DropItem(item)
-#         adapter = ItemAdapter(item)
-#         adapter["bio_image"] = image_paths[0]
-#         return item
+class NobelItemPlaceOfBirthFix:
+    def process_item(self, item, spider):
+        adapter = ItemAdapter(item)
+        if adapter.get("place_of_birth") in ["US", "U.S."]:
+            adapter["place_of_birth"] = "USA"
+        elif adapter.get("place_of_birth") == ["Republic of China"]:
+            adapter["place_of_birth"] = "China"
+        return item
 
 
-# class NobelImagesPipeline(ImagesPipeline):
-#     def get_media_requests(self, item, info):
-#         print("hello there")
-#         for image_url in item["image_urls"]:
-#             yield scrapy.Request(image_url)
-
-#     def item_completed(self, results, item, info):
-#         image_paths = [img["path"] for ok, img in results if ok]
-#         if not image_paths:
-#             raise DropItem("Item contains no images")
-#         adapter = ItemAdapter(item)
-#         adapter["bio_image"] = image_paths[0]
-#         return item
+class NobelItemCountryFix:
+    def process_item(self, item, spider):
+        adapter = ItemAdapter(item)
+        if adapter.get("country") in "China (People's Republic of China)":
+            adapter["country"] = "China"
+        if adapter.get("country") in "United States":
+            adapter["country"] = "USA"
+        return item

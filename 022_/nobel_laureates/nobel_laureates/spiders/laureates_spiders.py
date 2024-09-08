@@ -26,14 +26,14 @@ class ListSpider(scrapy.Spider):
 
             nwinner["name"] = l.css("a::text").get()
             nwinner["country"] = l.xpath("preceding::h3[1]").xpath("text()").get()
-            try:
-                nwinner["category"] = l.get().split(",")[-2].strip()
-            except:
-                nwinner["category"] = None
-            try:
-                nwinner["year"] = int(re.findall("\d{4}", l.get().split(",")[-1])[0])
-            except:
-                nwinner["year"] = None
+            # try:
+            # nwinner["category"] = l.get().split(",")[-2].strip()
+            # except:
+            # nwinner["category"] = None
+            # try:
+            #     nwinner["year"] = int(re.findall("\d{4}", l.get().split(",")[-1])[0])
+            # except:
+            #     nwinner["year"] = None
             nwinner["link"] = f'{l.css("a::attr(href)").get()}'
 
             request = scrapy.Request(
@@ -51,23 +51,22 @@ class ListSpider(scrapy.Spider):
 
         # some people just have the year
         # getting date of birth
-        try:
-            birth_info = response.xpath("//tr[contains(., 'Born')]/td")[0].get()
-            item["date_of_birth"] = extract_date(birth_info)
+        # try:
+        birth_info = response.xpath("//tr[contains(., 'Born')]/td")[0].get()
+        #     item["date_of_birth"] = extract_date(birth_info)
 
-            item["date_of_birth"] = fix_date(item["date_of_birth"])
+        #     item["date_of_birth"] = fix_date(item["date_of_birth"])
 
-        except IndexError:
-            item["date_of_birth"] = None
+        # except IndexError:
+        #     item["date_of_birth"] = None
 
         # getting date of death
-        try:
-            death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
-            item["date_of_death"] = extract_date(death_info)
-            item["date_of_death"] = fix_date(item["date_of_death"])
-
-        except IndexError:
-            item["date_of_death"] = None
+        # try:
+        death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
+        #     item["date_of_death"] = extract_date(death_info)
+        #     item["date_of_death"] = fix_date(item["date_of_death"])
+        # except IndexError:
+        #     item["date_of_death"] = None
 
         # fix this because it does not work for everyone use their position in the list
         try:
@@ -85,29 +84,27 @@ class ListSpider(scrapy.Spider):
             print(e)
             item["place_of_death"] = None
 
-        try:
+        # try:
+        #     item["image_urls"] = [
+        #         f'https:{"/".join(response.css(".infobox.vcard img::attr(src)").get().split("/")[:-1])}'.replace(
+        #             "/thumb", ""
+        #         )
+        #     ]
+        # except:
+        #     item["image_urls"] = None
 
-            item["image_urls"] = [
-                f'https:{"/".join(response.css(".infobox.vcard img::attr(src)").get().split("/")[:-1])}'.replace(
-                    "/thumb", ""
-                )
-            ]
+        # try:
+        #     item["award_age"] = int(item["year"]) - int(
+        #         datetime.fromtimestamp(item["date_of_birth"]).strftime("%Y")
+        #     )
+        # except:
+        #     item["award_age"] = None
 
-        except:
-            item["image_urls"] = None
+        # item["gender"] = gender_cal(response)
 
-        try:
-            item["award_age"] = int(item["year"]) - int(
-                datetime.fromtimestamp(item["date_of_birth"]).strftime("%Y")
-            )
-        except:
-            item["award_age"] = None
-
-        item["gender"] = gender_cal(response)
-
-        item["text"] = response.xpath(
-            "/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[2]"
-        ).extract()[0]
+        # item["text"] = response.xpath(
+        #     "/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[2]"
+        # ).extract()[0]
 
         yield item
 

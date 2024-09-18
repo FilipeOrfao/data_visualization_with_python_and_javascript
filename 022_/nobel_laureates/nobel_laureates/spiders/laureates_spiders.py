@@ -58,15 +58,15 @@ class ListSpider(scrapy.Spider):
         #     item["date_of_birth"] = fix_date(item["date_of_birth"])
 
         # except IndexError:
-        #     item["date_of_birth"] = None
+        # item["date_of_birth"] = None
 
         # getting date of death
-        # try:
-        death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
-        #     item["date_of_death"] = extract_date(death_info)
-        #     item["date_of_death"] = fix_date(item["date_of_death"])
-        # except IndexError:
-        #     item["date_of_death"] = None
+        try:
+            death_info = response.xpath("//tr[contains(., 'Died')]/td")[0].get()
+            item["date_of_death"] = extract_date(death_info)
+            item["date_of_death"] = fix_date(item["date_of_death"])
+        except IndexError:
+            item["date_of_death"] = None
 
         # fix this because it does not work for everyone use their position in the list
         try:
@@ -129,8 +129,11 @@ def fix_date(date):
 
 
 def extract_country(birth_info):
+    # birth_country = re.findall(
+    #     r"(>*,*\s*\w+\s*\w*\s*\w*\s*\w*<|U\.S\.|US)", birth_info
+    # )[-1]
     birth_country = re.findall(
-        r"(>*,*\s*\w+\s*\w*\s*\w*\s*\w*<|U\.S\.|US)", birth_info
+        r"(>*,*\s*[a-zA-Z]+\s*[a-zA-Z]*\s*[a-zA-Z]*\s*[a-zA-Z]*<|U\.S\.|US)", birth_info
     )[-1]
     birth_country = (
         birth_country.replace("<", "").replace(">", "").replace(",", "").strip()

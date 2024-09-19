@@ -99,27 +99,26 @@ class ListSpider(scrapy.Spider):
         except:
             item["award_age"] = None
 
-        item["gender"] = gender_cal(response)
+        # item["gender"] = gender_cal(response)
 
-        item["text"] = response.xpath(
-            "/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[2]"
-        ).extract()[0]
+        # item["text"] = response.xpath(
+        #     "/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[2]"
+        # ).extract()[0]
 
         yield item
 
 
 def extract_date(element):
-
     date = re.findall(
         r"\b(\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4})\b",
-        element.replace("&nbsp;", " "),
+        element.replace("\xa0", " "),
     )
     return fix_date(date)
 
 
 def fix_date(date):
     formatted_date = date[0].replace(",", "")
-    print(formatted_date)
+
     if formatted_date[0].isdigit():
         formatted_date = datetime.strptime(formatted_date, "%d %B %Y").timestamp()
     else:
